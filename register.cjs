@@ -23,7 +23,8 @@ if (!register) {
 if (
   entryPath.endsWith('.js') || 
   entryPath.endsWith('.cjs') || 
-  entryPath.endsWith('.mjs')
+  entryPath.endsWith('.mjs') ||
+  entryPath.endsWith('npm')
 ) {
   return
 }
