@@ -1,0 +1,19 @@
+{
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true,
+    "ignoreDiagnostics": [5104]
+  },
+  "compilerOptions": {
+    "strict": false,
+    "module": "NodeNext",
+    "target": "ESNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
