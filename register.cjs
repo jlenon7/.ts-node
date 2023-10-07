@@ -1,15 +1,22 @@
-const { register } = require('node:module')
-const { pathToFileURL } = require('node:url')
-
-const entryPath = process.argv[1]
-
-if (!register) {
+if (process.versions.electron) {
   return
 }
 
-if (process.versions.electron) {
-  // We don't really have a reason to register 
-  // `ts-node/esm` in Electron apps.
+const { register } = require('node:module')
+const { pathToFileURL } = require('node:url')
+
+/**
+ * Set the entry as the file being executed or the 
+ * current working directory of the project, in case
+ * something like `node` or `node -e "console.log('hello world')"`
+ * is being executed.
+ */
+const entryPath = process.argv[1] || process.cwd() + '/' 
+
+/**
+ * Node.js version is under v20.x.
+ */
+if (!register) {
   return
 }
 
