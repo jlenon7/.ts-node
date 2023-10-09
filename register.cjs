@@ -2,35 +2,42 @@ if (process.versions.electron) {
   return
 }
 
-const { register } = require('node:module')
-const { pathToFileURL } = require('node:url')
-
 /**
- * Set the entry as the file being executed or the 
- * current working directory of the project, in case
- * something like `node` or `node -e "console.log('hello world')"`
- * is being executed.
+ * The entry path is the path to the file that 
+ * is being executed. This path will be used
+ * as parentURL for registration.
  */
-const entryPath = process.argv[1] || process.cwd() + '/' 
-
-/**
- * Node.js version is under v20.x.
- */
-if (!register) {
-  return
-}
+let parentURL = process.argv[1] || process.cwd() + '/'
 
 if (
-  entryPath.endsWith('.js') || 
-  entryPath.endsWith('.cjs') || 
-  entryPath.endsWith('.mjs') ||
-  entryPath.endsWith('npm')
+  parentURL.endsWith('.js') || 
+  parentURL.endsWith('.cjs') || 
+  parentURL.endsWith('.mjs') ||
+  parentURL.endsWith('npm')
 ) {
   return
 }
 
-try {
-  register('ts-node/esm', pathToFileURL(entryPath))
-} catch(error) {
-  // Don't register the loader when it doesn't exist
+const pjson = require('./get-pjson.cjs')
+
+/**
+ * If a package.json doesn't exist in the parent 
+ * directory, then the parentURL needs to be set
+ * to the current directory of `.ts-node`.
+ * 
+ * Without this, it would not be possible to
+ * execute simple `.ts` scripts anywhere of
+ * your machine.
+ */
+parentURL = pjson ? parentURL : __dirname + '/'
+
+/**
+ * Register the loader when using ESM, or
+ * the programmatic ts-node API when using
+ * CommonJS.
+ */
+if (pjson?.type === 'module') {
+  require('./ts-node-esm.cjs').register(parentURL)
+} else {
+  require('ts-node').register({ cwd: parentURL })
 }
