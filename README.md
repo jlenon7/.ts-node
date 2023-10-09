@@ -29,10 +29,11 @@ nvm alias default 20.8.0
 
 ## Installation and usage
 
-Start cloning this repo to the **home directory** of your machine:
+Start cloning this repo to the **home directory** of your machine and installing it
+dependencies:
 
 ```shell
-git clone https://github.com/jlenon7/.ts-node.git ~/.ts-node
+git clone https://github.com/jlenon7/.ts-node.git ~/.ts-node && cd ~/.ts-node && npm i && cd
 ```
 
 Let's add the `NODE_OPTIONS` environment variable to your 
@@ -42,7 +43,7 @@ If you are using MacOS, your will probably be `~/.zshrc`:
 > For `~/.zshrc`:
 
 ```shell
-echo '\n# node\nexport NODE_OPTIONS="--require=$HOME/.ts-node/register.cjs"' >> ~/.zshrc && source ~/.zshrc
+echo 'export NODE_OPTIONS="--require=$HOME/.ts-node/register.cjs"' >> ~/.zshrc && source ~/.zshrc
 ```
 
 At this point you are able to run the following:
